@@ -6,9 +6,9 @@ const User = require('../models/authModel');
 
 const registerUser = asyncHandler(async (req, res) => {
     try {
-        const { name, email, phone, password } = req.body;
+        const { name, email, password, confirm_password } = req.body;
 
-        if (!name || !email || !phone || !password) {
+        if (!name || !email || !password || !confirm_password) {
             res.status(400).json({ message: 'Please enter all fields' });
         }
 
@@ -17,18 +17,24 @@ const registerUser = asyncHandler(async (req, res) => {
             res.status(400).json({ message: 'This email is already registered' });
         }
 
+        if (password !== confirm_password) {
+            res.status(400).json({ message: 'Password and confirm password must match' });
+        }
+
+
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const user = await User.create({
             name,
             email,
-            phone,
+            // phone,
             password: hashedPassword,
+            confirm_password: hashedPassword
         });
 
         console.log(`User Registered Successfully! ${user}`);
 
-        res.status(201).json({ _id: user.id, name: user.name, email: user.email, phone: user.phone });
+        res.status(201).json({ _id: user.id, name: user.name, email: user.email });
 
     } catch (error) {
         console.error(error); // Log the error for debugging purposes
