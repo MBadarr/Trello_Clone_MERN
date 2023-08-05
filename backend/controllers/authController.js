@@ -89,7 +89,7 @@ const currentUser = async (req, res) => {
 
     try {
         res.json(req.user);
-        res.json({ message: 'current user info' })
+        // res.json({ message: 'current user info' })
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
