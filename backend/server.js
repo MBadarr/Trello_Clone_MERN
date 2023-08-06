@@ -18,7 +18,8 @@ app.get('/', (req, res) => {
 });
 
 
-app.use('/api/users', require('./routes/userRoutes'))
+app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/tasks', require('./routes/todoRoutes'));
 
 
 app.listen(PORT, () => {
