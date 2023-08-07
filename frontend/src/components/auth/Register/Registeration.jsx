@@ -15,7 +15,7 @@ import { useState } from 'react';
 
 const defaultTheme = createTheme();
 
-const Registration = () => {
+const Registeration = () => {
 
     const [toggle, setToggle] = useState(false);
 
@@ -93,7 +93,7 @@ const Registration = () => {
                             noValidate
                             // onSubmit={handleSubmit}
                             sx={{ mt: 1 }}>
-                            <TextField
+                            {toggle && <TextField
                                 margin='normal'
                                 required
                                 fullWidth
@@ -102,7 +102,7 @@ const Registration = () => {
                                 name='name'
                                 autoComplete='name'
                                 autoFocus
-                            />
+                            />}
                             <TextField
                                 margin='normal'
                                 required
@@ -113,7 +113,7 @@ const Registration = () => {
                                 autoComplete='email'
                                 autoFocus
                             />
-                            {toggle && <><TextField
+                            <TextField
                                 margin='normal'
                                 required
                                 fullWidth
@@ -121,15 +121,17 @@ const Registration = () => {
                                 label='Password'
                                 type='password'
                                 id='password'
-                                autoComplete='current-password' /><TextField
-                                    margin='normal'
-                                    required
-                                    fullWidth
-                                    name='confirm_password'
-                                    label='Confirm Password'
-                                    type='confirm_password'
-                                    id='confirm_password'
-                                    autoComplete='confirm_password' /></>}
+                                autoComplete='current-password'
+                            />
+                            {toggle && <TextField
+                                margin='normal'
+                                required
+                                fullWidth
+                                name='confirm_password'
+                                label='Confirm Password'
+                                type='confirm_password'
+                                id='confirm_password'
+                                autoComplete='confirm_password' />}
                             <FormControlLabel
                                 control={
                                     <Checkbox
@@ -170,8 +172,8 @@ const Registration = () => {
                     </Box>
                 </Grid>
             </Grid>
-        </ThemeProvider>
+        </ThemeProvider >
     );
 };
 
-export default Registration;
+export default Registeration;
