@@ -4,7 +4,7 @@ const todoSchema = new mongoose.Schema({
 
     title: {
         type: String,
-        required: [true, "Please enter the Todo"]
+        required: [true, "Please enter the Title"]
     },
     description: {
         type: String,
