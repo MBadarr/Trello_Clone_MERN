@@ -21,23 +21,18 @@ const registerUser = asyncHandler(async (req, res) => {
             res.status(400).json({ message: 'Password and confirm password must match' });
         }
 
-
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const user = await User.create({
             name,
             email,
-            // phone,
             password: hashedPassword,
             confirm_password: hashedPassword
         });
 
-        console.log(`User Registered Successfully! ${user}`);
-
         res.status(201).json({ _id: user.id, name: user.name, email: user.email });
 
     } catch (error) {
-        console.error(error); // Log the error for debugging purposes
         res.status(500).json({ message: 'Internal Server Error' });
     }
 });
@@ -66,14 +61,14 @@ const loginUser = asyncHandler(async (req, res) => {
         // Generate JWT token
         const token = jwt.sign({
             user: {
+                id: user.id,
                 name: user.name,
                 email: user.email,
-                id: user._id
             },
         },
             process.env.ACCESS_TOKEN,
             {
-                expiresIn: '1m'
+                expiresIn: '10m'
             });
 
         res.status(200).json({ token });
@@ -84,15 +79,29 @@ const loginUser = asyncHandler(async (req, res) => {
     }
 });
 
+const logoutUser = asyncHandler(async (req, res) => {
+    try {
+        // Get the JWT token from the request headers
+        const token = req.headers.authorization;
+        console.log("token", token);
+        if (!token) {
+            return res.status(401).json({ message: 'No token provided' });
+        }
+
+        res.status(200).json({ message: 'Logout successful' });
+
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
 
 const currentUser = async (req, res) => {
 
     try {
         res.json(req.user);
-        // res.json({ message: 'current user info' })
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
 }
 
-module.exports = { registerUser, loginUser, currentUser };
+module.exports = { registerUser, loginUser, logoutUser, currentUser };

@@ -3,21 +3,36 @@ const asyncHandler = require('express-async-handler');
 const Todo = require('../models/todoModel');
 
 const getAllTasks = asyncHandler(async (req, res) => {
-    res.status(200).json({ message: 'Get All Tasks' });
+    try {
+        const todos = await Todo.find({ user_id: req.user.id });
+        res.status(201).json({ message: 'Todo List', todos: todos });
+    }
+
+    catch (error) {
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+
 });
+
 
 const createTask = asyncHandler(async (req, res) => {
 
+    try {
+        const { title, description, completed } = req.body;
 
-    // const { title, description } = req.body;
+        const todo = await Todo.create({
+            title,
+            description,
+            completed,
+            user_id: req.user.id,
+        });
+        console.log("todo", todo);
+        res.status(201).json({ message: 'Todo Created', title: todo.title, description: todo.description, completed: todo.completed });
+    }
 
-    // if (!title || !description) {
-    //     throw new Error('Please provide title and description');
-    // }
-
-    // const newTask = await Todo.create({ title, description });
-
-    res.status(201).json({ message: 'Create Task' });
+    catch (error) {
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
 });
 
 const updateTask = asyncHandler(async (req, res) => {
@@ -53,7 +68,7 @@ const deleteTask = asyncHandler(async (req, res) => {
     res.status(200).json({ message: 'Task deleted successfully' });
 });
 
-const completedTask = asyncHandler(async (req, res) => {
+const getTask = asyncHandler(async (req, res) => {
     // const { id } = req.params;
 
     // const task = await Todo.findById(id);
@@ -67,7 +82,7 @@ const completedTask = asyncHandler(async (req, res) => {
 
     // await task.save();
 
-    res.status(200).json({ message: 'Task completed successfully' });
+    // res.status(200).json({ message: 'Task completed successfully' });
 });
 
-module.exports = { getAllTasks, createTask, updateTask, deleteTask, completedTask }
+module.exports = { getAllTasks, createTask, updateTask, deleteTask, getTask }

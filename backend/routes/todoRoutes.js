@@ -1,19 +1,14 @@
 const express = require('express');
 
-const { getAllTasks, createTask, updateTask, deleteTask, completedTask } = require('../controllers/todoController');
+const { getAllTasks, createTask, updateTask, deleteTask, getTask } = require('../controllers/todoController');
 
 
 const router = express.Router();
 
-router.get('/', getAllTasks);
+const verifyToken = require("../middleware/verifyToken");
 
-router.post('/', createTask);
-
-router.put('/:id', updateTask);
-
-router.delete('/:id', deleteTask);
-
-router.put('/:id/completed', completedTask);
-
+router.use(verifyToken);
+router.route("/").get(getAllTasks).post(createTask);
+router.route("/:id").get(getTask).put(updateTask).delete(deleteTask);
 
 module.exports = router;

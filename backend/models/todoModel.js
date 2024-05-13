@@ -2,6 +2,12 @@ const mongoose = require('mongoose');
 
 const todoSchema = new mongoose.Schema({
 
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "User",
+    },
+
     title: {
         type: String,
         required: [true, "Please enter the Title"]
@@ -15,17 +21,6 @@ const todoSchema = new mongoose.Schema({
     },
 },
 
-    // completedAt: {
-    //     type: Date
-    // },
-    // updatedAt: {
-    //     type: Date
-
-    // },
-    // createdAt: {
-    //     type: Date,
-    //     default: Date.now
-    // }
     {
         timestamps: true
     }
