@@ -4,16 +4,17 @@ const todoSchema = new mongoose.Schema({
 
     title: {
         type: String,
-        required: [true, "Please enter the Todo"]
+        required: [true, "Please enter the Title"]
     },
     description: {
         type: String,
-        required: [true, "Please enter the Todo Description"]
     },
     completed: {
         type: Boolean,
         default: false
     },
+},
+
     // completedAt: {
     //     type: Date
     // },
@@ -25,7 +26,10 @@ const todoSchema = new mongoose.Schema({
     //     type: Date,
     //     default: Date.now
     // }
-});
+    {
+        timestamps: true
+    }
+);
 
 const Todo = mongoose.model('Todo', todoSchema);
 
