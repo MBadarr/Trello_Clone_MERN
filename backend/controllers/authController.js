@@ -81,12 +81,13 @@ const loginUser = asyncHandler(async (req, res) => {
 
 const logoutUser = asyncHandler(async (req, res) => {
     try {
-        // Get the JWT token from the request headers
-        const token = req.headers.authorization;
-        console.log("token", token);
+
         if (!token) {
             return res.status(401).json({ message: 'No token provided' });
         }
+
+        const token = req.headers.authorization;
+        console.log("token", token);
 
         res.status(200).json({ message: 'Logout successful' });
 
