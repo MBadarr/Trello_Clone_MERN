@@ -79,15 +79,14 @@ const loginUser = asyncHandler(async (req, res) => {
     }
 });
 
+// Logout Controller
 const logoutUser = asyncHandler(async (req, res) => {
     try {
+        const token = req.headers.authorization;
 
         if (!token) {
             return res.status(401).json({ message: 'No token provided' });
         }
-
-        const token = req.headers.authorization;
-        console.log("token", token);
 
         res.status(200).json({ message: 'Logout successful' });
 
@@ -96,8 +95,8 @@ const logoutUser = asyncHandler(async (req, res) => {
     }
 });
 
+// Get Current User Data Controller
 const currentUser = async (req, res) => {
-
     try {
         res.json(req.user);
     } catch (err) {

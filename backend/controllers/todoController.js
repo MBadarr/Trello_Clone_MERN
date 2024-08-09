@@ -2,19 +2,17 @@ const asyncHandler = require('express-async-handler');
 
 const Todo = require('../models/todoModel');
 
+// Get All Tasks
 const getAllTasks = asyncHandler(async (req, res) => {
     try {
-        const todos = await Todo.find({ user_id: req.user.id });
-        res.status(201).json({ message: 'Todo List', todos: todos });
-    }
-
-    catch (error) {
+        const tasks = await Todo.find({});
+        res.status(200).json({ message: 'Todo List', tasks: tasks });
+    } catch (error) {
         res.status(500).json({ message: 'Internal Server Error' });
     }
-
 });
 
-
+// Create Todo
 const createTask = asyncHandler(async (req, res) => {
 
     try {
@@ -26,8 +24,7 @@ const createTask = asyncHandler(async (req, res) => {
             completed,
             user_id: req.user.id,
         });
-        console.log("todo", todo);
-        res.status(201).json({ message: 'Todo Created', title: todo.title, description: todo.description, completed: todo.completed });
+        res.status(201).json({ message: 'Todo Created', id: todo._id, title: todo.title, description: todo.description, completed: todo.completed });
     }
 
     catch (error) {
@@ -35,54 +32,36 @@ const createTask = asyncHandler(async (req, res) => {
     }
 });
 
+// Update Todo
 const updateTask = asyncHandler(async (req, res) => {
 
-    // const { id } = req.params;
+    const todo = await Todo.findById(req.params.id);
 
-    // const task = await Todo.findById(id);
+    if (!todo) {
+        res.status(404);
+        throw new Error('Todo not found');
+    }
 
-    // if (!task) {
-    //     res.status(404);
-    //     throw new Error('Task not found');
-    // }
+    const updateTask = await Todo.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+    })
 
-    // await task.remove();
-
-    res.status(200).json({ message: 'Task updated successfully' });
+    res.status(201).json({ message: 'Todo Updated Successfully', id: updateTask._id, title: updateTask.title, description: updateTask.description, completed: updateTask.completed });
 });
 
-
+// Delete Todo
 const deleteTask = asyncHandler(async (req, res) => {
 
-    // const { id } = req.params;
+    const todo = await Todo.findById(req.params.id);
 
-    // const task = await Todo.findById(id);
+    if (!todo) {
+        res.status(404);
+        throw new Error('Todo not found');
+    }
 
-    // if (!task) {
-    //     res.status(404);
-    //     throw new Error('Task not found');
-    // }
+    await Todo.findByIdAndDelete(req.params.id);
 
-    // await task.remove();
-
-    res.status(200).json({ message: 'Task deleted successfully' });
+    res.status(200).json({ message: `Todo deleted successfully}` });
 });
 
-const getTask = asyncHandler(async (req, res) => {
-    // const { id } = req.params;
-
-    // const task = await Todo.findById(id);
-
-    // if (!task) {
-    //     res.status(404);
-    //     throw new Error('Task not found');
-    // }
-
-    // task.completed = !task.completed;
-
-    // await task.save();
-
-    // res.status(200).json({ message: 'Task completed successfully' });
-});
-
-module.exports = { getAllTasks, createTask, updateTask, deleteTask, getTask }
+module.exports = { getAllTasks, createTask, updateTask, deleteTask }

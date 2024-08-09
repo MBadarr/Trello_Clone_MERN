@@ -9,6 +9,6 @@ const verifyToken = require("../middleware/verifyToken");
 
 router.use(verifyToken);
 router.route("/").get(getAllTasks).post(createTask);
-router.route("/:id").get(getTask).put(updateTask).delete(deleteTask);
+router.route("/:id").put(updateTask).delete(deleteTask);
 
 module.exports = router;
