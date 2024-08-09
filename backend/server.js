@@ -14,7 +14,7 @@ const PORT = process.env.PORT;
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.send('Hello, Node!');
+  res.send('Trello Clone!');
 });
 
 
