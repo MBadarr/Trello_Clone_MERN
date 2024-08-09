@@ -12,4 +12,4 @@ yarn-error.log*
 .env.development
 .env.test
 .env.production
-*.local
+*.local.env
