@@ -1,13 +1,19 @@
-// import { Button } from "@/components/ui/button"
+import {useState} from "react";
+import { Button } from "@/components/ui/button"
 
 function App() {
+  const [count, setCount] = useState<number>(0)
 
-    return (
-        <>
-            <h1 className='text-3xl text-center font-bold underline'>Trello Clone</h1>
-            {/*<Button>Click me</Button>*/}
-        </>
-    )
+    function Increment() {
+        setCount((prevCount: number) => prevCount + 1)
+    }
+
+  return (
+    <>
+        <Button onClick={Increment} variant='outline'>Click me</Button>
+        {count}
+    </>
+  )
 }
 
 export default App
