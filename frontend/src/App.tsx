@@ -1,19 +1,25 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button"
+import { useGetPokemonByNameQuery } from './services/pokemon'
 
 function App() {
-    const [count, setCount] = useState<number>(0)
-
-    function handleIncrement() {
-        setCount((prevCount: number) => prevCount + 1)
-    }
+    // Using a query hook automatically fetches data and returns query values
+    const { data, error, isLoading } = useGetPokemonByNameQuery('bulbasaur')
+    // Individual hooks are also accessible under the generated endpoints:
+    // const { data, error, isLoading } = pokemonApi.endpoints.getPokemonByName.useQuery('bulbasaur')
 
     return (
-        <>
-            <Button onClick={handleIncrement} variant='outline'>Click me</Button>
-            {count}
-        </>
+        <div className="App">
+            {error ? (
+                <>Oh no, there was an error</>
+            ) : isLoading ? (
+                <>Loading...</>
+            ) : data ? (
+                <>
+                    <h3>{data.species.name}</h3>
+                    <img src={data.sprites.front_shiny} alt={data.species.name} />
+                </>
+            ) : null}
+        </div>
     )
 }
 
-export default App
+export default App;
