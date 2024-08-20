@@ -11,7 +11,7 @@ function App() {
                 <>Loading...</>
             ) : data ? (
                 <>
-                    <h3>{data.species.name}</h3>
+                    <div>{data.species.name}</div>
                     <img src={data.sprites.front_shiny} alt={data.species.name} />
                 </>
             ) : null}

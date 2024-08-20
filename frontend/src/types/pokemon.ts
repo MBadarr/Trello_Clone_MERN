@@ -1,6 +1,6 @@
 export type Pokemon = {
     id: number;
     species: string;
-    stats: number;
+    moves: string;
     front_shiny: string;
 };
