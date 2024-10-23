@@ -1,5 +1,4 @@
 const asyncHandler = require('express-async-handler');
-
 const Todo = require('../models/todoModel');
 
 // Get All Tasks
