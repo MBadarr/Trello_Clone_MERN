@@ -20,7 +20,6 @@ const todoSchema = new mongoose.Schema({
         default: false
     },
 },
-
     {
         timestamps: true
     }
